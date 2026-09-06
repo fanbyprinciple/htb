@@ -1,0 +1,5 @@
+MAIL_DOMAIN=webkul.com
+
+IMAP_VALIDATE_CERT=true
+IMAP_USERNAME=username1
+IMAP_PASSWORD=password1
