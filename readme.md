@@ -24,6 +24,8 @@ Things to do to a box
 
 6. Always look for version number of the software, if they are exploitable.
 
-7. 
+7. if we see a wildcard in the tls its a give away then there could be sub domain.
+
+
 
 
