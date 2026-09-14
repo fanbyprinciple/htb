@@ -24,6 +24,8 @@ Things to do to a box
 
 `ffuf -w /usr/share/wordlists/dirb/common.txt:FUZZ -u https://example.com -mc 200,301,302 -o directories.json`
 
+`└─$ ffuf -w /usr/share/wordlists/dirb/common.txt -u http://jobs.amzcorp.local/FUZZ -fc 404`
+
 4. Always keep a file for all username/ emails and password. During brute force attempts try everything with everything
 
 5. If there is a git repo, there are commit based flags.
