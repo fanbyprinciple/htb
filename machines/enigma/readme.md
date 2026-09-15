@@ -111,7 +111,7 @@ Export list for 10.129.58.231:
 
 sudo mount -t nfs 10.129.58.231:/srv/nfs/onboarding /tmp/onboarding -o ro
 
-
+`
 └─$ ls -la /tmp/onboarding
 
 total 8
