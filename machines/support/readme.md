@@ -56,3 +56,34 @@ Completed NSE at 14:02, 0.00s elapsed
 Read data files from: /usr/share/nmap
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 411.96 seconds
+
+└─$ crackmapexec smb 10.129.141.87 -u '' -p '' --shares
+[*] First time use detected
+[*] Creating home directory structure
+[*] Creating default workspace
+[*] Initializing RDP protocol database
+[*] Initializing LDAP protocol database
+[*] Initializing SSH protocol database
+[*] Initializing WINRM protocol database
+[*] Initializing FTP protocol database
+[*] Initializing MSSQL protocol database
+[*] Initializing SMB protocol database
+[*] Copying default configuration file
+[*] Generating SSL certificate
+SMB         10.129.141.87   445    DC               [*] Windows Server 2022 Build 20348 x64 (name:DC) (domain:support.htb) (signing:True) (SMBv1:False)
+SMB         10.129.141.87   445    DC               [+] support.htb\: 
+SMB         10.129.141.87   445    DC               [-] Error enumerating shares: STATUS_ACCESS_DENIED
+                                                            
+
+ crackmapexec smb 10.129.141.87 -u 'guest' -p '' --shares
+SMB         10.129.141.87   445    DC               [*] Windows Server 2022 Build 20348 x64 (name:DC) (domain:support.htb) (signing:True) (SMBv1:False)
+SMB         10.129.141.87   445    DC               [+] support.htb\guest: 
+SMB         10.129.141.87   445    DC               [+] Enumerated shares
+SMB         10.129.141.87   445    DC               Share           Permissions     Remark
+SMB         10.129.141.87   445    DC               -----           -----------     ------
+SMB         10.129.141.87   445    DC               ADMIN$                          Remote Admin
+SMB         10.129.141.87   445    DC               C$                              Default share
+SMB         10.129.141.87   445    DC               IPC$            READ            Remote IPC
+SMB         10.129.141.87   445    DC               NETLOGON                        Logon server share 
+SMB         10.129.141.87   445    DC               support-tools   READ            support staff tools
+SMB         10.129.141.87   445    DC               SYSVOL                          Logon server share 
