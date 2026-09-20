@@ -14,17 +14,27 @@ Things to do to a box
 
 2. put the hostname on /etc/hosts
 
-`sudo nano /etc/hosts`
+`sudo nano /etc/hosts` even subdomains.
 
 3. enumerate subdomains
 
-`ffuf -u http://nexus.htb -H "HOST:FUZZ.nexus.htb" -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -ac`
+`ffuf -u http://silentium.htb/ -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -H "Host: FUZZ.silentium.htb" -fs 154 -fc 301,302 -ac`
 
-`ffuf -u http://enigma.htb/ -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -H "Host: FUZZ.enigma.htb" -fs 154`
+`ffuf -w /usr/share/wordlists/dirb/common.txt -u http://silentium.htb/FUZZ -fc 404 -ac`
 
-`ffuf -w /usr/share/wordlists/dirb/common.txt:FUZZ -u https://example.com -mc 200,301,302 -o directories.json`
+in case it returns wildcard response then fuzz based on the size
 
-`└─$ ffuf -w /usr/share/wordlists/dirb/common.txt -u http://jobs.amzcorp.local/FUZZ -fc 404`
+first determine the size
+
+`curl -s -o /dev/null -w '%{http_code} %{size_download}\n' http://silentium.htb/thisdefinitelydoesnotexist123`
+
+find the size and filter
+
+`ffuf -w /usr/share/wordlists/dirb/common.txt -u http://silentium.htb/FUZZ -fs 154`
+
+we can also autocalibrate
+
+`ffuf -w /usr/share/wordlists/dirb/common.txt -u http://silentium.htb/FUZZ -ac`
 
 4. Always keep a file for all username/ emails and password. During brute force attempts try everything with everything
 
@@ -39,6 +49,10 @@ Things to do to a box
 9. in webmail try same password with all users.
 
 10. look at the cronjob.
+
+11. Webpages can reveal user name
+
+for email we can try user@domain_name to try and brute force.
 
 
 
