@@ -1,0 +1,1 @@
+Use of powershell scripts after disabling AMSI scanbuffer and then followed by booitn in safe mode and removal of history.
