@@ -1,0 +1,8 @@
+DirBuster 1.0-RC1 - Report
+http://www.owasp.org/index.php/Category:OWASP_DirBuster_Project
+Report produced on Sat Oct 03 23:46:50 EDT 2026
+--------------------------------
+
+http://touch.htb:5985
+--------------------------------
+--------------------------------

@@ -10,3 +10,5 @@ From pwnbox use the command
 xfreerdp /v:10.129.245.167/u:letsdefend /p:'' /cert:ignore /dynamic-resolution 
 
 File Location: C:\Users\LetsDefend\Desktop\ChallengeFile\proc_creation_win_bitsadmin_download.yml
+
+bitsadmin.exe
