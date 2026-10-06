@@ -49,3 +49,5 @@ curl -X POST http://touch.htb:8443/login/badge \
 curl -X POST http://touch.htb:8443/login/badge \
   -H "Content-Type: application/json" \
   -d '{"badge":"KS7X2M"}' -k
+
+https://jhasagar.com.np/touch-htb-writeup.html?i=1
