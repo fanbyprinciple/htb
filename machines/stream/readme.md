@@ -88,3 +88,5 @@ python3 -c 'import pty;pty.spawn("/bin/bash")'; export TERM=xterm; # then Ctrl-Z
 Web app → server-side ffmpeg/media file-read or RCE → leaked service creds → root via a privileged media job (filename/metadata command injection) or a version-matched CVE from the table. Confidence that media processing is the gimmick: ~70%.
 
 THe ip is 10.129.78.124
+
+fgc
