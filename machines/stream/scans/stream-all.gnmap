@@ -1,0 +1,4 @@
+# Nmap 7.99 scan initiated Tue Oct 13 15:17:10 2026 as: /usr/lib/nmap/nmap --privileged -p- --min-rate 5000 -T4 -oA scans/stream-all 10.129.78.124
+Host: 10.129.78.124 ()	Status: Up
+Host: 10.129.78.124 ()	Ports: 22/open/tcp//ssh///, 80/open/tcp//http///, 8081/open/tcp//blackice-icecap///, 37685/open/tcp/////	Ignored State: closed (65531)
+# Nmap done at Tue Oct 13 15:17:27 2026 -- 1 IP address (1 host up) scanned in 16.59 seconds
