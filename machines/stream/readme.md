@@ -87,6 +87,27 @@ python3 -c 'import pty;pty.spawn("/bin/bash")'; export TERM=xterm; # then Ctrl-Z
 
 Web app → server-side ffmpeg/media file-read or RCE → leaked service creds → root via a privileged media job (filename/metadata command injection) or a version-matched CVE from the table. Confidence that media processing is the gimmick: ~70%.
 
-THe ip is 10.129.78.124
+Stream Machine Summary
 
-fgc
+Stream is a medium-difficulty Linux machine on Hack The Box that focuses on web application enumeration, sensitive information disclosure, XML External Entity (XXE) injection, credential reuse, lateral movement, backup analysis, and privilege escalation through a misconfigured ClickHouse database and a root-executed systemd service.
+
+The exploitation process begins with Nmap enumeration, which reveals SSH, an Nginx web server, and a Uvicorn-based AIDX ingestion service running on port 8081. After configuring the local /etc/hosts file, I enumerate the web applications, API directories, and Swagger documentation to identify available endpoints and understand the application's functionality. Testing the AIDX XML endpoint confirms that it accepts flight-leg data, while virtual host enumeration reveals additional API and ClickHouse database subdomains. I update my hosts file accordingly and investigate the ClickHouse interface, authentication requirements, database endpoints, and accessible directories.
+
+Further API directory enumeration exposes a Spring Boot Actuator heapdump endpoint, allowing me to download and analyze a Java heap memory dump. By examining the heapdump, I recover database credentials, identify JDBC configuration details, and enumerate database user information. I then reuse the extracted credentials to authenticate to ClickHouse, enumerate its databases and tables, and investigate the stored flight-leg records.
+
+The next stage involves exploiting an XML External Entity (XXE) vulnerability in the AIDX ingestion service. I prepare and submit a malicious XML payload that references /etc/passwd, then retrieve the disclosed file contents through ClickHouse. After confirming arbitrary local file disclosure, I modify the payload to target the Kafka server configuration file. Submitting this payload exposes Kafka authentication credentials, which I successfully reuse to establish an SSH session as svc-infra.
+
+With an initial foothold established, I enumerate the local system, user accounts, home directories, and sudo privileges. After identifying the martin_cole account, I perform an SU password brute-force attack and recover its password. I then switch to martin_cole, enumerate the user's environment, and retrieve the user flag.
+
+During further enumeration, I discover a Kopia backup repository in the user's home directory. I authenticate to the repository using the recovered password, enumerate its available snapshots, and restore a backup containing ClickHouse server logs. Analyzing these logs reveals a plaintext password associated with the ClickHouse default account. I subsequently verify that the disclosed credentials provide database access.
+
+For privilege escalation, I investigate a scheduled systemd service responsible for processing AIDX dead-letter queue messages. The service executes /opt/ops/dlq_drainer.py as root and references a Python formatter located inside ClickHouse's user_files directory. Although direct filesystem access to this location is restricted, my authenticated ClickHouse session provides an alternative attack surface.
+
+I configure a Netcat reverse shell listener and abuse the ClickHouse file() table function to write a malicious Python reverse shell payload into the formatter script. After submitting another AIDX XML request and waiting for the scheduled drainer to execute, I receive a reverse shell running as root. Finally, I verify administrative privileges using whoami and id, then retrieve the root flag from /root/root.txt, completing the machine.
+
+Overall, Stream demonstrates how multiple weaknesses can be chained together to achieve a complete system compromise. The attack path combines exposed diagnostic endpoints, credential leakage, XXE-based file disclosure, password reuse, insecure backup contents, database file-write capabilities, and privileged scheduled execution, progressing from unauthenticated reconnaissance to full root access.
+HackTheBox Stream Walkthrough - Season 12 HTB Writeup Aero Machines
+
+
+THe ip is 10.129.4.57
+
