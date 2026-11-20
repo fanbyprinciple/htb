@@ -9,3 +9,5 @@ EOF
 
 python3 ./machines/doubletake/ 10.129.248.123 10.10.14.214 9001
 
+caffeinate claude --dangerously-skip-permissions --resume 5406ae31
+             
