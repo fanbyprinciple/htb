@@ -127,5 +127,5 @@ CLOCK: time stepped by 28799.911137
 ┌──(ajp㉿kali)-[~/codeplay/htb/machines/pingpong]
 └─$ netexec ldap dc1.ping.htb -u c.roberts -p AssumedBreach123 -k
 LDAP        dc1.ping.htb    389    DC1              [*] None (name:DC1) (domain:ping.htb) (signing:None) (channel binding:Never) (NTLM:False)                                                                                                   
-LDAP        dc1.ping.htb    389    DC1              [+] ping.htb\c.roberts:AssumedBreach123 
+LDAP        dc1.ping.htb    389    DC1              [+] ping.htb\c.roberts:AssumedBreach123 pu
 

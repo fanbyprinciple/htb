@@ -1,3 +1,11 @@
+When you are enumerating ADS start with smb enumeratiuon
+
+Ensure that clocks are in sync
+
+get the krb file from the smb and add it to the local env
+
+try list shares if there are nay other shares than what is there in the smb then that is sure shot sign of somthing amiss.
+
 └─$ ldapsearch -x -H ldap://10.129.141.87 \
   -D 'ldap@support.htb' \
   -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' \
