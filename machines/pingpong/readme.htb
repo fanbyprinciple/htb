@@ -104,3 +104,28 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 220.05 seconds
 
 https://www.youtube.com/watch?v=w2A52-dhO9E
+
+netexec smb 10.129.128.220 --generate-hosts-file hosts
+
+netexec smb 10.129.4.239 --generate-krb5-file krb5.conf
+
+
+ netexec smb dc1.ping.htb -u c.roberts -p AssumedBreach123
+SMB         10.129.4.239    445    dc1              [*]  x64 (name:dc1) (domain:ping.htb) (signing:True) (SMBv1:None) (NTLM:False)                                                                                                              
+SMB         10.129.4.239    445    dc1              [-] ping.htb\c.roberts:AssumedBreach123 STATUS_NOT_SUPPORTED
+
+netexec ldap dc1.ping.htb -u c.roberts -p AssumedBreach123 -k
+
+┌──(ajp㉿kali)-[~/codeplay/htb/machines/pingpong]
+└─$ sudo timedatectl set-ntp false
+                                                                                                                        
+┌──(ajp㉿kali)-[~/codeplay/htb/machines/pingpong]
+└─$ sudo ntpdate dc1.ping.htb
+2026-11-27 21:26:32.268485 (-0500) +28799.911137 +/- 0.163387 dc1.ping.htb 10.129.4.239 s1 no-leap
+CLOCK: time stepped by 28799.911137
+                                                                                                                        
+┌──(ajp㉿kali)-[~/codeplay/htb/machines/pingpong]
+└─$ netexec ldap dc1.ping.htb -u c.roberts -p AssumedBreach123 -k
+LDAP        dc1.ping.htb    389    DC1              [*] None (name:DC1) (domain:ping.htb) (signing:None) (channel binding:Never) (NTLM:False)                                                                                                   
+LDAP        dc1.ping.htb    389    DC1              [+] ping.htb\c.roberts:AssumedBreach123 
+
